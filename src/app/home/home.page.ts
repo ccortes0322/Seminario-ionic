@@ -14,5 +14,8 @@ export class HomePage {
   inicio(){
     this.router.navigateByUrl("/inicio")
   }
+  login(){
+    this.router.navigateByUrl("/login")
+  }
 
 }

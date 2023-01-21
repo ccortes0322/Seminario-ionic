@@ -1,0 +1,57 @@
+<ion-content >
+  <body>
+
+   <div class="containerI">
+    <div class="icon">
+      <ion-icon name="person-circle-outline"></ion-icon>
+    </div>
+    <p class="LoginP">Login</p>
+  </div>
+   
+    <form [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
+      <div>
+      <ion-item fill="solid">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input [clearInput]="true" formControlName="email"></ion-input>
+      </ion-item>
+    </div>
+
+    <div>
+      <ng-container *ngFor="let validation of validation_message.email">
+        <div *ngIf="
+        loginForm.get('email')?.hasError(validation.type) && 
+        (loginForm.get('email')?.dirty || 
+        loginForm.get('email')?.touched)" class="mensage">
+          {{validation.message}}
+        </div>
+      </ng-container>
+    </div>
+
+    
+
+      <ion-item fill="solid">
+        <ion-label position="floating">contraseña</ion-label>
+        <ion-input  [clearInput]="true" formControlName="password" type="password"></ion-input>
+      </ion-item>
+      <div>
+        <ng-container *ngFor="let validation of validation_message.password">
+          <div *ngIf="
+          loginForm.get('password')?.hasError(validation.type) && 
+          (loginForm.get('password')?.dirty || 
+          loginForm.get('password')?.touched)" class="mensage">
+            {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
+        <div class="BtnCenter">
+          <ion-button shape="round" [disabled]="!loginForm.valid" 
+                      type="submit">Login
+          </ion-button>
+          <ion-button shape="round" 
+                      (click)="resgiter()"
+                      >Register
+          </ion-button>
+        </div>
+    </form>
+  </body>
+</ion-content>

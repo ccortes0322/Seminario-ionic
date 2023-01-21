@@ -2,7 +2,8 @@
   <ion-slides pager="true" [options]="slideropt" >
     <ion-slide *ngFor="let slide of slides">
       <ion-icon name="alarm-outline"> </ion-icon>
-      <ion-button (click)="home()">atras</ion-button>
+      
+      <a (click)="home()"><ion-icon name="arrow-back-outline"></ion-icon></a>
       <h1>{{slide.titulo1}}</h1>
       <h2>{{slide.titulo2}}</h2>
       <ion-img src={{slide.img}} alt=""/>
