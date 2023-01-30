@@ -1,6 +1,7 @@
 import { Component} from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
+import { NavController} from '@ionic/angular';
 
 @Component({
   selector: 'app-inicio',
@@ -43,12 +44,13 @@ export class InicioPage {
     }
   ]
 
-  constructor(private router: Router,private storage: Storage) {
+  constructor(private router: Router,private storage: Storage,
+    private navControler: NavController,) {
   }
 
   home(){
     this.storage.set('sesion',true );
-    this.router.navigateByUrl("/home");
+    this.navControler.navigateForward("/menu/home");
   }
 
 }

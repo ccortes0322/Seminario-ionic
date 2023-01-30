@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthenticateService } from '../services/authenticate.service';
-import { NavController } from '@ionic/angular';
+import { NavController,AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 
@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  
   loginForm: FormGroup;
   validation_message = {
     email: [
@@ -35,7 +36,8 @@ export class LoginPage implements OnInit {
     private authenticate: AuthenticateService,
     private navControler: NavController,
     private storage: Storage,
-    private router: Router
+    private router: Router,
+    private alertController: AlertController
   ) {
     this.loginForm = this.formBuilder.group({
       email: new FormControl(
@@ -55,14 +57,14 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {}
 
-  loginUser(credentials: any) {
+  loginUserLocal(credentials: any) {
     console.log(credentials);
     this.authenticate
-      .loginUser(credentials)
+      .loginUserLocal(credentials)
       .then((res) => {
         this.errorMesaje = '';
         this.storage.set('isUserLoggedIn', true);
-        this.navControler.navigateForward('/inicio');
+        this.navControler.navigateForward('/menu/home');
       })
       .catch((err) => {
         this.errorMesaje = err;
@@ -71,5 +73,29 @@ export class LoginPage implements OnInit {
 
   resgiter() {
     this.router.navigateByUrl('/register');
+  }
+
+
+  loginUser(credentials: any) {
+    console.log(credentials);
+    this.authenticate.loginUser(credentials).then( (res: any) => {
+      this.storage.set("isUserLoggedIn", true);
+      this.storage.set("user_id", res.user.id);
+      this.navControler.navigateForward("/inicio");
+    }).catch(err => {
+      this.presentAlert("Opps", "Hubo un error", err);
+    });
+  }
+
+  async presentAlert(header: any, subHeader: any, message: any) {
+    const alert = await this.alertController.create(
+      {
+        header: header,
+        subHeader: subHeader,
+        message: message,
+        buttons: ['Ok']
+      }
+    );
+    await alert.present();
   }
 }
